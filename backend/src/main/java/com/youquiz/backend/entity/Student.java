@@ -1,4 +1,4 @@
 package com.youquiz.backend.entity;
 
-public class Student {
+public class Student extends User{
 }
