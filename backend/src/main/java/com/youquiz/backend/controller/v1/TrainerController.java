@@ -1,6 +1,7 @@
 package com.youquiz.backend.controller.v1;
 
 import com.youquiz.backend.mapper.trainer.request.CreateTrainerRequest;
+import com.youquiz.backend.mapper.trainer.response.TrainerResponse;
 import com.youquiz.backend.service.TrainerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,9 @@ public class TrainerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(
+    public TrainerResponse create(
             @Valid @RequestBody CreateTrainerRequest request
             ) {
-        log.info("TrainerController execution");
-        //return trainerService.create(request);
+        return trainerService.create(request);
     }
 }
