@@ -1,4 +1,8 @@
 package com.youquiz.backend.entity;
 
-public class Trainer {
+import jakarta.persistence.Entity;
+
+@Entity
+public class Trainer extends User {
+    private String specialty;
 }
