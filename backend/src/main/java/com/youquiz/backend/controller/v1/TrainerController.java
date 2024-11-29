@@ -1,7 +1,7 @@
 package com.youquiz.backend.controller.v1;
 
-import com.youquiz.backend.mapper.trainer.request.CreateTrainerRequest;
-import com.youquiz.backend.mapper.trainer.response.TrainerResponse;
+import com.youquiz.backend.dto.trainer.request.CreateTrainerRequest;
+import com.youquiz.backend.dto.trainer.response.TrainerResponse;
 import com.youquiz.backend.service.TrainerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 public class TrainerController {
-    private TrainerService trainerService;
+    private final TrainerService trainerService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TrainerResponse create(
             @Valid @RequestBody CreateTrainerRequest request
             ) {
+        System.out.println("request : "+request);
         return trainerService.create(request);
     }
 }

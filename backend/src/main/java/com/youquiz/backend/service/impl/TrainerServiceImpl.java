@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -20,11 +22,17 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public TrainerResponse create(CreateTrainerRequest request) {
+        log.info("start create method...");
         validateCreate(request);
 
         Trainer trainer = trainerMapper.toEntity(request);
-
-        return trainerMapper.toTrainerResponse(trainerRepository.save(trainer));
+        trainer.setRegistrationDate(LocalDate.now());
+        log.info("before saving...");
+        Trainer savedTrainer = trainerRepository.save(trainer);
+        log.info("after saving...");
+        TrainerResponse trainerResponse = trainerMapper.toTrainerResponse(savedTrainer);
+        log.info("after mapping...");
+        return trainerResponse;
     }
 
     // validation methods

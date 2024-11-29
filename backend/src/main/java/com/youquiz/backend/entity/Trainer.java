@@ -1,10 +1,15 @@
 package com.youquiz.backend.entity;
 
 import jakarta.persistence.Entity;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Trainer extends User {
     private String specialty;
 }
