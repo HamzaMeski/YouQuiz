@@ -1,28 +1,16 @@
-package com.youquiz.backend.entity;
+package com.youquiz.backend.dto.trainer.request;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
-@MappedSuperclass
 @Data
-@SuperBuilder
-@NoArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@Builder
+public class CreateTrainerRequest {
     @NotBlank(message = "first name shouldn't be blank")
     private String firstName;
 
@@ -36,6 +24,8 @@ public class User {
     @NotNull
     private LocalDate birthDate;
 
+    private String specialty;
+
     @NotNull
-    private LocalDate registrationDate; // Sign-up date in the plate form
+    private LocalDate registrationDate;
 }
