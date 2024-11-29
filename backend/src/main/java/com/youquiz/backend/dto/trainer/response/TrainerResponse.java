@@ -14,5 +14,6 @@ public class TrainerResponse {
     private String lastName;
     private String email;
     private LocalDate birthDate;
+    private LocalDate registrationDate;
     private String specialty;
 }

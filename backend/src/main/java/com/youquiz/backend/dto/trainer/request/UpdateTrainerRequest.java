@@ -1,20 +1,13 @@
 package com.youquiz.backend.dto.trainer.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class UpdateTrainerRequest {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private LocalDate birthDate;
-    private String specialty;
-    private LocalDate registrationDate;
+@SuperBuilder
+@NoArgsConstructor
+public class UpdateTrainerRequest extends RequestDTO {
 }
