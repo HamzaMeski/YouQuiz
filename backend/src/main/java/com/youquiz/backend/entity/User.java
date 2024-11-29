@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @MappedSuperclass
 @Data
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id

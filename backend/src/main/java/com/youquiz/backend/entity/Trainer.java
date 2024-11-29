@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Data
 @SuperBuilder
-@AllArgsConstructor
 @NoArgsConstructor
 public class Trainer extends User {
     private String specialty;
