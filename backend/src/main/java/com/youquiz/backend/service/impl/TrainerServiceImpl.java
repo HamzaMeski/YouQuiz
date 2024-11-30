@@ -54,14 +54,12 @@ public class TrainerServiceImpl implements TrainerService {
 
     @Override
     public TrainerResponse getById(Long id) {
-        Trainer trainer = checkUserExistence(id);
-        return trainerMapper.toTrainerResponse(trainer);
+        return trainerMapper.toTrainerResponse(checkUserExistence(id));
     }
 
     @Override
     public void delete(Long id) {
-        Trainer trainer = checkUserExistence(id);
-        trainerRepository.delete(trainer);
+        trainerRepository.delete(checkUserExistence(id));
     }
 
     // validation methods

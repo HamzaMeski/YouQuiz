@@ -1,4 +1,4 @@
-package com.youquiz.backend.dto.trainer.request;
+package com.youquiz.backend.dto.student.request;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,5 +9,5 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-public class UpdateTrainerRequest extends RequestDTO {
+public class CreateStudentRequest extends RequestDTO {
 }
