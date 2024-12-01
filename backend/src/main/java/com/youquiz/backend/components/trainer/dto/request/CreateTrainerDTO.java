@@ -29,4 +29,6 @@ public class CreateTrainerDTO extends CreateDTO<Trainer> {
     private LocalDate birthDate;
 
     private LocalDate registrationDate = LocalDate.now();
+
+    private String specialty;
 }

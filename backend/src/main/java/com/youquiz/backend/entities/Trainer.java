@@ -33,4 +33,6 @@ public class Trainer {
 
     @NotNull
     private LocalDate registrationDate;
+
+    private String specialty;
 }

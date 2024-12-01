@@ -19,6 +19,7 @@ public class TrainerDetailResponseDTO extends DetailResponseDTO<Trainer, Long> {
     private String email;
     private LocalDate birthDate;
     private LocalDate registrationDate;
+    private String specialty;
     private Integer age;
     private Integer yearsOfExperience;
 }

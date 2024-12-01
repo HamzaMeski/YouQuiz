@@ -27,4 +27,6 @@ public class UpdateTrainerDTO extends UpdateDTO<Trainer> {
 
     @NotNull(message = "birth date is required")
     private LocalDate birthDate;
+
+    private String specialty;
 }
