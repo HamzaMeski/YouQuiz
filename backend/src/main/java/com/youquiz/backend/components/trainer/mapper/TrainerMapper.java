@@ -15,15 +15,12 @@ import java.time.Period;
 public interface TrainerMapper extends EntityMapper<Trainer, Long, CreateTrainerDTO, UpdateTrainerDTO, TrainerResponseDTO> {
     
     @Override
-    @Mapping(target = "registrationDate", expression = "java(request.getRegistrationDate() != null ? request.getRegistrationDate() : java.time.LocalDate.now())")
-    @Mapping(target = "id", ignore = true)
     Trainer toEntity(CreateTrainerDTO request);
 
     @Override
     TrainerResponseDTO toResponseDTO(Trainer entity);
 
     @Override
-    @Mapping(target = "id", ignore = true)
     void updateEntity(UpdateTrainerDTO request, @MappingTarget Trainer entity);
 
     @Mapping(target = "age", source = "birthDate", qualifiedByName = "calculateAge")

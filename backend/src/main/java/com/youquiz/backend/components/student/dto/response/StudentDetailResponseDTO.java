@@ -1,7 +1,7 @@
-package com.youquiz.backend.components.trainer.dto.response;
+package com.youquiz.backend.components.student.dto.response;
 
 import com.youquiz.backend.EntityComponentsProvider.dto.response.DetailResponseDTO;
-import com.youquiz.backend.entities.Trainer;
+import com.youquiz.backend.entities.Student;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,13 +13,11 @@ import java.time.LocalDate;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class TrainerDetailResponseDTO extends DetailResponseDTO<Trainer, Long> {
+public class StudentDetailResponseDTO extends DetailResponseDTO<Student, Long> {
     private String firstName;
     private String lastName;
     private String email;
     private LocalDate birthDate;
     private LocalDate registrationDate;
-    private String specialty;
     private Integer age;
-    private Integer yearsOfExperience;
 }
