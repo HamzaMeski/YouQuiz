@@ -3,6 +3,7 @@ package com.youquiz.backend.components.trainer.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,11 @@ public class TrainerService extends EntityServiceImpl<Trainer, Long, CreateTrain
     private final TrainerRepository trainerRepository;
     private final TrainerMapper trainerMapper;
 
-    public TrainerService(TrainerRepository trainerRepository, TrainerMapper trainerMapper) {
-        super(trainerRepository, trainerMapper);
+    public TrainerService(
+            TrainerRepository trainerRepository, 
+            TrainerMapper trainerMapper,
+            ApplicationContext applicationContext) {
+        super(trainerRepository, trainerMapper, applicationContext);
         this.trainerRepository = trainerRepository;
         this.trainerMapper = trainerMapper;
     }

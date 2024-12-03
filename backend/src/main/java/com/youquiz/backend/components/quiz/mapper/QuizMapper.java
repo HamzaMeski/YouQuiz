@@ -14,18 +14,20 @@ import org.mapstruct.MappingTarget;
 public interface QuizMapper extends EntityMapper<Quiz, Long, CreateQuizDTO, UpdateQuizDTO, QuizResponseDTO> {
     @Override
     @Mapping(target = "trainer", ignore = true)
-    @Mapping(target = "assignments", ignore = true)
+    @Mapping(target = "quizAssignments", ignore = true)
+    @Mapping(target = "id", ignore = true)
     Quiz toEntity(CreateQuizDTO createQuizDTO);
 
     @Override
     @Mapping(target = "trainer", ignore = true)
-    @Mapping(target = "assignments", ignore = true)
+    @Mapping(target = "quizAssignments", ignore = true)
     void updateEntity(UpdateQuizDTO updateQuizDTO, @MappingTarget Quiz quiz);
 
     @Override
+    @Mapping(target = "trainerId", source = "trainer.id")
     QuizResponseDTO toResponseDTO(Quiz quiz);
 
-    @Mapping(target = "trainerName", expression = "java(getTrainerName(quiz)))")
+    @Mapping(target = "trainerName", expression = "java(getTrainerName(quiz))")
     @Mapping(target = "totalNumberOsAssignments", expression = "java(getTotalNumberOsAssignments(quiz))")
     QuizDetailResponseDTO toDetailResponseDTO(Quiz quiz);
 
@@ -37,5 +39,4 @@ public interface QuizMapper extends EntityMapper<Quiz, Long, CreateQuizDTO, Upda
     default public Integer getTotalNumberOsAssignments(Quiz quiz) {
         return quiz.getQuizAssignments().size();
     }
-
 }

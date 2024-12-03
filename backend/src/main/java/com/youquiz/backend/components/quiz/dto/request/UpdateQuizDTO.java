@@ -3,7 +3,15 @@ package com.youquiz.backend.components.quiz.dto.request;
 import com.youquiz.backend.EntityComponentsProvider.dto.request.UpdateDTO;
 import com.youquiz.backend.entities.Quiz;
 import jakarta.validation.constraints.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class UpdateQuizDTO extends UpdateDTO<Quiz> {
 
     @NotNull(message = "trainerId is required")

@@ -8,6 +8,7 @@ import com.youquiz.backend.components.quiz.mapper.QuizMapper;
 import com.youquiz.backend.components.quiz.repository.QuizRepository;
 import com.youquiz.backend.entities.Quiz;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +19,17 @@ public class QuizService extends EntityServiceImpl<Quiz, Long, CreateQuizDTO, Up
     private final QuizRepository quizRepository;
     private final QuizMapper quizMapper;
 
-    public QuizService(QuizRepository quizRepository, QuizMapper quizMapper) {
-        super(quizRepository, quizMapper);
+    public QuizService(
+            QuizRepository quizRepository, 
+            QuizMapper quizMapper,
+            ApplicationContext applicationContext) {
+        super(quizRepository, quizMapper, applicationContext);
         this.quizRepository = quizRepository;
         this.quizMapper = quizMapper;
     }
 
     @Override
     public QuizResponseDTO create(CreateQuizDTO request) {
-
-        super.create(request);
+        return super.create(request);
     }
 }
