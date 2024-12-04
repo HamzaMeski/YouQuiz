@@ -1,10 +1,9 @@
 package com.youquiz.backend.components.quizAssignment.dto.response;
 
-import com.youquiz.backend.EntityComponentsProvider.dto.request.CreateDTO;
 import com.youquiz.backend.EntityComponentsProvider.dto.response.ResponseDTO;
-import com.youquiz.backend.entities.Quiz;
+import com.youquiz.backend.components.quiz.dto.response.QuizResponseDTO;
+import com.youquiz.backend.components.student.dto.response.StudentResponseDTO;
 import com.youquiz.backend.entities.QuizAssignment;
-import com.youquiz.backend.entities.Student;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,8 +17,8 @@ import java.time.LocalTime;
 @EqualsAndHashCode(callSuper = true)
 public class AssignmentResponseDTO extends ResponseDTO<QuizAssignment, Long> {
     private Long id;
-    private Quiz quiz;
-    private Student student;
+    private QuizResponseDTO quiz;
+    private StudentResponseDTO student;
     private String reason;
     private LocalTime startTime;
     private LocalTime endTime;
