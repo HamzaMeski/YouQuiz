@@ -27,9 +27,4 @@ public class QuizService extends EntityServiceImpl<Quiz, Long, CreateQuizDTO, Up
         this.quizRepository = quizRepository;
         this.quizMapper = quizMapper;
     }
-
-    @Override
-    public QuizResponseDTO create(CreateQuizDTO request) {
-        return super.create(request);
-    }
 }
