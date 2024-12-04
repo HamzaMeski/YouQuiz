@@ -25,14 +25,17 @@ public class Question {
     private Level level;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "level_id", nullable = false)
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
-
-    @NotBlank(message = "question shouldn't be blank")
-    private String question;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AnswerValidation> answerValidations;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuizQuestion> quizzesQuestions;
+
+    @NotBlank(message = "question shouldn't be blank")
+    private String question;
 
     private Integer correctAnswers;
 }
