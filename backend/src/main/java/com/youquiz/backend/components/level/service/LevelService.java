@@ -7,7 +7,7 @@ import com.youquiz.backend.components.level.dto.response.LevelResponseDTO;
 import com.youquiz.backend.components.level.mapper.LevelMapper;
 import com.youquiz.backend.components.level.repository.LevelRepository;
 import com.youquiz.backend.entities.Level;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -26,14 +26,5 @@ public class LevelService extends EntityServiceImpl<Level, Long, CreateLevelDTO,
         super(levelRepository, levelMapper, applicationContext);
         this.levelRepository = levelRepository;
         this.levelMapper = levelMapper;
-    }
-
-    @Override
-    public LevelResponseDTO create(CreateLevelDTO createLevelDTO) {
-        log.info("create method started...");
-        log.info("*Name: {}", createLevelDTO.getName());
-        log.info("*MinPoints: {}", createLevelDTO.getMinPoints());
-        log.info("*MaxPoints: {}", createLevelDTO.getMaxPoints());
-        return super.create(createLevelDTO);
     }
 }
