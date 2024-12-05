@@ -11,12 +11,15 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface LevelMapper extends EntityMapper<Level, Long, CreateLevelDTO, UpdateLevelDTO, LevelResponseDTO> {
-
+    @Override
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "questions", ignore = true)
     Level toEntity(CreateLevelDTO createLevelDTO);
 
+    @Override
     @Mapping(target = "questions", ignore = true)
     void updateEntity(UpdateLevelDTO updateLevelDTO, @MappingTarget Level level);
 
+    @Override
     LevelResponseDTO toResponseDTO(Level level);
 }
