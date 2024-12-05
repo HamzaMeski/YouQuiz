@@ -29,6 +29,9 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuizAssignment> quizAssignments;
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuizQuestion> quizzesQuestions;
+
     @NotBlank(message = "Title shouldn't be blank")
     private String title;
 
