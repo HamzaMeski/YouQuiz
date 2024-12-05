@@ -1,6 +1,7 @@
 package com.youquiz.backend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class Level {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "level shouldn't be blank")
+    @NotBlank(message = "name shouldn't be blank")
     private String name;
 
     @NotNull(message = "max points value is required")

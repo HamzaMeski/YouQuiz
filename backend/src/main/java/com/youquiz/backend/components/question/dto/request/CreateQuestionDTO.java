@@ -1,28 +1,37 @@
 package com.youquiz.backend.components.question.dto.request;
 
-import com.youquiz.backend.entities.AnswerValidation;
+import com.youquiz.backend.EntityComponentsProvider.dto.request.CreateDTO;
+import com.youquiz.backend.EntityComponentsProvider.dto.request.RelationshipField;
 import com.youquiz.backend.entities.Level;
+import com.youquiz.backend.entities.Question;
 import com.youquiz.backend.entities.Subject;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.util.List;
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class CreateQuestionDTO extends CreateDTO<Question> {
 
-public class CreateQuestionDTO {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "level_id", nullable = false)
-    private Level level;
+    @RelationshipField(
+            entity = Level.class,
+            repository = "com.youquiz.backend.components.level.repository.LevelRepository"
+    )
+    @NotNull(message = "question is required")
+    private Long levelId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "level_id", nullable = false)
-    private Subject subject;
+    @RelationshipField(
+            entity = Subject.class,
+            repository = "com.youquiz.backend.components.subject.repository.SubjectRepository"
+    )
+    @NotNull(message = "subject is required")
+    private Long subjectId;
 
     @NotBlank(message = "question shouldn't be blank")
     private String question;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AnswerValidation> answerValidations;
-
-    private Integer correctAnswers;
-
 }

@@ -5,6 +5,7 @@ import com.youquiz.backend.entities.Level;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,12 +17,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class CreateLevelDTO extends CreateDTO<Level> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @NotNull(message = "description shouldn't be blank")
-    private String description;
+    @NotBlank(message = "name shouldn't be blank")
+    private String name;
 
     @NotNull(message = "Set Max Points value")
     private Float maxPoints;
