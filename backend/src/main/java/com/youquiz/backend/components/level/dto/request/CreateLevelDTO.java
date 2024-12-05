@@ -2,9 +2,6 @@ package com.youquiz.backend.components.level.dto.request;
 
 import com.youquiz.backend.EntityComponentsProvider.dto.request.CreateDTO;
 import com.youquiz.backend.entities.Level;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
