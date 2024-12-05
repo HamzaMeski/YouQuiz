@@ -2,6 +2,7 @@ package com.youquiz.backend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,6 @@ public class QuizQuestion {
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
-    @NotBlank(message = "timer is required")
-    private Integer timer;
+    @NotNull(message = "timer is required")
+    private Float timer;
 }

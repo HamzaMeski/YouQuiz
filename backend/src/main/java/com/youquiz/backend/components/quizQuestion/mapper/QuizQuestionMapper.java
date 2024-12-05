@@ -24,7 +24,5 @@ public interface QuizQuestionMapper extends EntityMapper<QuizQuestion, Long, Cre
     void updateEntity(UpdateQuizQuestionDTO updateQuizQuestionDTO, @MappingTarget QuizQuestion quizQuestion);
 
     @Override
-    @Mapping(target = "question", source = "question")
-    @Mapping(target = "quiz", source = "quiz")
     QuizQuestionResponseDTO toResponseDTO(QuizQuestion quizQuestion);
 }
