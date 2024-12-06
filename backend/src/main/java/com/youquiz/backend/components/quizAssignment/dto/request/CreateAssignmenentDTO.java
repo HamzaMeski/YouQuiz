@@ -35,10 +35,10 @@ public class CreateAssignmenentDTO extends CreateDTO<QuizAssignment> {
 
     private String reason;
 
-    @NotNull
+    @NotNull(message = "start time is required")
     private LocalTime startTime;
 
-    @NotNull
+    @NotNull(message = "end time is required")
     private LocalTime endTime;
 
     private Integer attempt;
