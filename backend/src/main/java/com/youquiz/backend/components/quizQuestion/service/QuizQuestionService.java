@@ -34,6 +34,7 @@ public class QuizQuestionService extends EntityServiceImpl<QuizQuestion, Long, C
         if(quizQuestionRepository.isRecordAlreadyExists(createQuizQuestionDTO.getQuizId(), createQuizQuestionDTO.getQuestionId())) {
             throw new ValidationException("Invalid Creation, Question already assigned to that quiz");
         }
+        validateTimer(createQuizQuestionDTO.getTimer());
         return super.create(createQuizQuestionDTO);
     }
 
@@ -42,6 +43,13 @@ public class QuizQuestionService extends EntityServiceImpl<QuizQuestion, Long, C
         if(quizQuestionRepository.isRecordAlreadyExistsForUpdate(updateQuizQuestionDTO.getQuizId(), updateQuizQuestionDTO.getQuestionId(), id)) {
             throw new ValidationException("Invalid Update, Question already assigned to that quiz");
         }
+        validateTimer(updateQuizQuestionDTO.getTimer());
         super.update(id, updateQuizQuestionDTO);
+    }
+
+    private void validateTimer(Float timer) {
+        if (timer != null && timer <= 0) {
+            throw new ValidationException("Timer value must be positive");
+        }
     }
 }

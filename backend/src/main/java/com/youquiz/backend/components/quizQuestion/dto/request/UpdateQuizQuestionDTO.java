@@ -30,6 +30,5 @@ public class UpdateQuizQuestionDTO extends UpdateDTO<QuizQuestion> {
     @NotNull(message = "questionId is required")
     private Long questionId;
 
-    @NotNull(message = "timer is required")
     private Float timer;
 }

@@ -27,6 +27,5 @@ public class QuizQuestion {
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
-    @NotNull(message = "timer is required")
     private Float timer;
 }
