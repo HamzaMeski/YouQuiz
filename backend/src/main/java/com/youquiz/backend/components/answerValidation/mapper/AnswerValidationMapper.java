@@ -18,13 +18,11 @@ public interface AnswerValidationMapper extends EntityMapper<AnswerValidation, L
     @Override
     @Mapping(target = "answer", ignore = true)
     @Mapping(target = "question", ignore = true)
-    @Mapping(target = "quizAssignment", ignore = true)
     AnswerValidation toEntity(CreateAnswerValidationDTO createAnswerValidationDTO);
 
     @Override
     @Mapping(target = "answer", ignore = true)
     @Mapping(target = "question", ignore = true)
-    @Mapping(target = "quizAssignment", ignore = true)
     void updateEntity(UpdateAnswerValidationDTO updateAnswerValidationDTO, @MappingTarget AnswerValidation answerValidation);
 
     @Override

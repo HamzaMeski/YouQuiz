@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import java.util.List;
 
 @Data
 @SuperBuilder
@@ -26,15 +27,14 @@ public class CreateAnswerValidationDTO extends CreateDTO<AnswerValidation> {
             entity = Question.class,
             repository = "com.youquiz.backend.components.question.repository.QuestionRepository"
     )
-    @NotNull(message = "studentId is required")
+    @NotNull(message = "questionId is required")
     private Long questionId;
 
-    @RelationshipField(
-            entity = QuizAssignment.class,
-            repository = "com.youquiz.backend.components.quizAssignment.repository.QuizAssignmentRepository"
-    )
-    private Long quizAssignmentId;
+    private List<Long> quizAssignmentIds;
 
     @NotNull(message = "You must set points value, It's required")
     private Float points;
+
+    @NotNull(message = "You must specify if this answer is correct for this question")
+    private Boolean isCorrect;
 }

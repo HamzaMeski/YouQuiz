@@ -17,6 +17,5 @@ import lombok.experimental.SuperBuilder;
 public class AnswerValidationResponseDTO extends ResponseDTO<AnswerValidation, Long> {
     private AnswerResponseDTO answer;
     private QuestionResponseDTO question;
-    private AssignmentResponseDTO quizAssignment;
     private Float points;
 }
