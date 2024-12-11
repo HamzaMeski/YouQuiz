@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @Transactional
-public class QuizAssingmentService extends EntityServiceImpl<QuizAssignment, Long, CreateAssignmenentDTO, UpdateAssignmenentDTO, AssignmentResponseDTO>  {
+public class QuizAssignmentService extends EntityServiceImpl<QuizAssignment, Long, CreateAssignmenentDTO, UpdateAssignmenentDTO, AssignmentResponseDTO>  {
     private final QuizAssignmentRepository quizAssignmentRepository;
     private final QuizAssingmentMapper quizAssingmentMapper;
 
-    public QuizAssingmentService(
+    public QuizAssignmentService(
             QuizAssignmentRepository quizAssignmentRepository,
             QuizAssingmentMapper quizAssingmentMapper,
             ApplicationContext applicationContext) {

@@ -43,5 +43,5 @@ public class CreateAssignmenentDTO extends CreateDTO<QuizAssignment> {
 
     private Integer attempt;
 
-    private Double score;
+    private Double score = 0.0;
 }

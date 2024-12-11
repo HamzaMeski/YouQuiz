@@ -27,4 +27,5 @@ public interface QuizAssingmentMapper extends EntityMapper<QuizAssignment, Long,
     @Mapping(target = "quiz", source = "quiz")
     @Mapping(target = "student", source = "student")
     AssignmentResponseDTO toResponseDTO(QuizAssignment quizAssignment);
+
 }
