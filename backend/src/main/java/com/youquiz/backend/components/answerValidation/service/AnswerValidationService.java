@@ -1,5 +1,13 @@
 package com.youquiz.backend.components.answerValidation.service;
 
+import java.time.LocalTime;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.youquiz.backend.EntityComponentsProvider.service.EntityServiceImpl;
 import com.youquiz.backend.components.answer.repository.AnswerRepository;
 import com.youquiz.backend.components.answerValidation.dto.request.CreateAnswerValidationDTO;
@@ -12,14 +20,11 @@ import com.youquiz.backend.components.question.repository.QuestionRepository;
 import com.youquiz.backend.components.quizAssignment.repository.QuizAssignmentRepository;
 import com.youquiz.backend.config.exception.ResourceNotFoundException;
 import com.youquiz.backend.config.exception.ValidationException;
-import com.youquiz.backend.entities.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalTime;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.youquiz.backend.entities.Answer;
+import com.youquiz.backend.entities.AnswerValidation;
+import com.youquiz.backend.entities.Question;
+import com.youquiz.backend.entities.Quiz;
+import com.youquiz.backend.entities.QuizAssignment;
 
 @Service
 @Transactional
@@ -103,19 +108,32 @@ public class AnswerValidationService extends EntityServiceImpl<
                     AnswerValidation newValidation = new AnswerValidation();
                     newValidation.setQuestion(question);
                     newValidation.setAnswer(answer);
-                    newValidation.setPoints(0F);
-                    newValidation.setIsCorrect(false);
                     return newValidation;
                 });
 
-        // 7. Associate with quiz assignment
+        // 7. Check if answer is correct and set points
+        Boolean isCorrect = answerValidationRepository.isAnswerCorrectForQuestion(
+                submitAnswerDTO.getQuestionId(), 
+                submitAnswerDTO.getAnswerId()
+        );
+        Float points = answerValidationRepository.findPointsByQuestionAndAnswer(
+                submitAnswerDTO.getQuestionId(),
+                submitAnswerDTO.getAnswerId()
+        );
+        
+        answerValidation.setIsCorrect(isCorrect != null && isCorrect);
+        answerValidation.setPoints(points != null ? points : 0F);
+
+        // 8. Associate with quiz assignment
         quizAssignment.getAnswerValidations().add(answerValidation);
         answerValidation.getQuizAssignments().add(quizAssignment);
 
-        // 8. Save and update score
+        // 9. Save answer validation
         answerValidation = answerValidationRepository.save(answerValidation);
+
+        // 10. Update quiz assignment score
         Float totalScore = answerValidationRepository.calculateTotalScore(quizAssignment);
-        quizAssignment.setScore(totalScore != null ? totalScore.doubleValue() : 0.0);
+        quizAssignment.updateScore(totalScore);
         quizAssignmentRepository.save(quizAssignment);
 
         return answerValidationMapper.toResponseDTO(answerValidation);

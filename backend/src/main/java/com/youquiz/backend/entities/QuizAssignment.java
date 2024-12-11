@@ -58,5 +58,10 @@ public class QuizAssignment {
 
     private Integer attempt;
 
-    private Double score;
+    @Builder.Default
+    private Double score = 0.0;
+
+    public void updateScore(Float newScore) {
+        this.score = newScore != null ? newScore.doubleValue() : 0.0;
+    }
 }
