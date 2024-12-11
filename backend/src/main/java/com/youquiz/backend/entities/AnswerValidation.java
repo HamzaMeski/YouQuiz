@@ -39,5 +39,5 @@ public class AnswerValidation {
 
     private Float points = 0F;
     
-    private Boolean isCorrect = false;
+    private Boolean isCorrect;
 }

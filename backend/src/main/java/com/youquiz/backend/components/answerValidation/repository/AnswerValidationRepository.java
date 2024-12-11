@@ -12,10 +12,12 @@ import com.youquiz.backend.entities.QuizAssignment;
 public interface AnswerValidationRepository extends EntityRepository<AnswerValidation, Long> {
     @Query("SELECT av.points FROM AnswerValidation av WHERE av.question.id = :questionId AND av.answer.id = :answerId")
     Float findPointsByQuestionAndAnswer(@Param("questionId") Long questionId, @Param("answerId") Long answerId);
-    
-    @Query("SELECT av.isCorrect FROM AnswerValidation av WHERE av.question.id = :questionId AND av.answer.id = :answerId")
+
+    @Query(value = "SELECT is_correct FROM answer_validation " +
+            "WHERE question_id = :questionId AND answer_id = :answerId " +
+            "ORDER BY id DESC LIMIT 1", nativeQuery = true)
     Boolean isAnswerCorrectForQuestion(@Param("questionId") Long questionId, @Param("answerId") Long answerId);
-    
+
     @Query("SELECT CASE WHEN COUNT(av) > 0 THEN true ELSE false END FROM AnswerValidation av " +
            "WHERE av.question.id = :questionId AND :quizAssignment MEMBER OF av.quizAssignments")
     boolean hasAnsweredQuestion(@Param("questionId") Long questionId, @Param("quizAssignment") QuizAssignment quizAssignment);
