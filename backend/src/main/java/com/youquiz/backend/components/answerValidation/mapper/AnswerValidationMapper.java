@@ -26,5 +26,6 @@ public interface AnswerValidationMapper extends EntityMapper<AnswerValidation, L
     void updateEntity(UpdateAnswerValidationDTO updateAnswerValidationDTO, @MappingTarget AnswerValidation answerValidation);
 
     @Override
+    @Mapping(target = "isCorrect", expression = "java(answerValidation.getIsCorrect())")
     AnswerValidationResponseDTO toResponseDTO(AnswerValidation answerValidation);
 }
