@@ -37,7 +37,7 @@ public class AnswerValidation {
     @ToString.Exclude
     private Question question;
 
-    private Float points = 0F;
+    private Float points;
     
     private Boolean isCorrect;
 }

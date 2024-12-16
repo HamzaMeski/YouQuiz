@@ -121,8 +121,8 @@ public class AnswerValidationService extends EntityServiceImpl<
                 submitAnswerDTO.getAnswerId()
         );
         
-        answerValidation.setIsCorrect(isCorrect != null && isCorrect);
-        answerValidation.setPoints(points != null ? points : 0F);
+        answerValidation.setIsCorrect(isCorrect);
+        answerValidation.setPoints(points);
 
         // 8. Associate with quiz assignment
         quizAssignment.getAnswerValidations().add(answerValidation);
