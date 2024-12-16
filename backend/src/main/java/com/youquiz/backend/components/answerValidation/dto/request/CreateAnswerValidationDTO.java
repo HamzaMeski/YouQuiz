@@ -30,7 +30,6 @@ public class CreateAnswerValidationDTO extends CreateDTO<AnswerValidation> {
     @NotNull(message = "questionId is required")
     private Long questionId;
 
-    private List<Long> quizAssignmentIds;
 
     @NotNull(message = "You must set points value, It's required")
     private Float points;

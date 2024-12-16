@@ -56,25 +56,9 @@ public class AnswerValidationService extends EntityServiceImpl<
 
     @Override
     public AnswerValidationResponseDTO create(CreateAnswerValidationDTO createAnswerValidationDTO) {
-        AnswerValidationResponseDTO response = super.create(createAnswerValidationDTO);
-        
-        if (createAnswerValidationDTO.getQuizAssignmentIds() != null && !createAnswerValidationDTO.getQuizAssignmentIds().isEmpty()) {
-            AnswerValidation answerValidation = answerValidationRepository.findById(response.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("AnswerValidation not found"));
-            
-            Set<QuizAssignment> quizAssignments = createAnswerValidationDTO.getQuizAssignmentIds().stream()
-                    .map(id -> quizAssignmentRepository.findById(id)
-                            .orElseThrow(() -> new ResourceNotFoundException("QuizAssignment not found with id: " + id)))
-                    .collect(Collectors.toSet());
-            
-            answerValidation.setQuizAssignments(quizAssignments);
-            quizAssignments.forEach(qa -> qa.getAnswerValidations().add(answerValidation));
-            
-            answerValidationRepository.save(answerValidation);
-            quizAssignmentRepository.saveAll(quizAssignments);
-        }
-        
-        return response;
+        if(createAnswerValidationDTO.getPoints() > 0) createAnswerValidationDTO.setIsCorrect(true);
+
+        return super.create(createAnswerValidationDTO);
     }
 
     public AnswerValidationResponseDTO submitAnswer(SubmitAnswerDTO submitAnswerDTO) {
