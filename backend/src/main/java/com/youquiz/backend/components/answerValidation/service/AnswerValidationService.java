@@ -56,10 +56,8 @@ public class AnswerValidationService extends EntityServiceImpl<
 
     @Override
     public AnswerValidationResponseDTO create(CreateAnswerValidationDTO createAnswerValidationDTO) {
-        // First create the AnswerValidation entity using the parent class method
         AnswerValidationResponseDTO response = super.create(createAnswerValidationDTO);
         
-        // Then handle the ManyToMany relationship manually
         if (createAnswerValidationDTO.getQuizAssignmentIds() != null && !createAnswerValidationDTO.getQuizAssignmentIds().isEmpty()) {
             AnswerValidation answerValidation = answerValidationRepository.findById(response.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("AnswerValidation not found"));
