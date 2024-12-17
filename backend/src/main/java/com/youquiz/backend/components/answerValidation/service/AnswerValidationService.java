@@ -62,28 +62,28 @@ public class AnswerValidationService extends EntityServiceImpl<
     }
 
     public AnswerValidationResponseDTO submitAnswer(SubmitAnswerDTO submitAnswerDTO) {
-        // 1. Verify the quiz assignment exists and belongs to the student
+        // Verify the quiz assignment exists and belongs to the student
         QuizAssignment quizAssignment = quizAssignmentRepository.findById(submitAnswerDTO.getQuizAssignmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz Assignment not found"));
 
-        // 2. Validate quiz assignment state
+        // Validate quiz assignment state
         validateQuizAssignmentState(quizAssignment);
 
-        // 3. Check if question already answered
-        if (answerValidationRepository.hasAnsweredQuestion(submitAnswerDTO.getQuestionId(), quizAssignment)) {
-            throw new ValidationException("This question has already been answered in this quiz");
-        }
-
-        // 4. Get question and answer
+        // Get question and answer
         Question question = questionRepository.findById(submitAnswerDTO.getQuestionId())
                 .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
         Answer answer = answerRepository.findById(submitAnswerDTO.getAnswerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Answer not found"));
 
-        // 5. Validate question belongs to quiz
+        // Check if question already answered
+        if (answerValidationRepository.hasAnsweredQuestion(submitAnswerDTO.getQuestionId(), quizAssignment)) {
+            throw new ValidationException("This question has already been answered in this quiz");
+        }
+
+        // Validate question belongs to quiz
         validateQuestionBelongsToQuiz(question, quizAssignment.getQuiz());
 
-        // 6. Get or create answer validation
+        // Get or create answer validation
         AnswerValidation answerValidation = answerValidationRepository
                 .findByQuestionAndAnswer(submitAnswerDTO.getQuestionId(), submitAnswerDTO.getAnswerId())
                 .orElseGet(() -> {
@@ -93,7 +93,7 @@ public class AnswerValidationService extends EntityServiceImpl<
                     return newValidation;
                 });
 
-        // 7. Check if answer is correct and set points
+        // Check if answer is correct and set points
         Boolean isCorrect = answerValidationRepository.isAnswerCorrectForQuestion(
                 submitAnswerDTO.getQuestionId(), 
                 submitAnswerDTO.getAnswerId()
@@ -106,14 +106,14 @@ public class AnswerValidationService extends EntityServiceImpl<
         answerValidation.setIsCorrect(isCorrect);
         answerValidation.setPoints(points);
 
-        // 8. Associate with quiz assignment
+        // Associate with quiz assignment
         quizAssignment.getAnswerValidations().add(answerValidation);
         answerValidation.getQuizAssignments().add(quizAssignment);
 
-        // 9. Save answer validation
+        // Save answer validation
         answerValidation = answerValidationRepository.save(answerValidation);
 
-        // 10. Update quiz assignment score
+        // Update quiz assignment score
         Float totalScore = answerValidationRepository.calculateTotalScore(quizAssignment);
         quizAssignment.updateScore(totalScore);
         quizAssignmentRepository.save(quizAssignment);
