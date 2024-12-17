@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class LevelResponseDTO extends ResponseDTO<Level, Long> {
-    private Long id;
     private String name;
     private Float maxPoints;
     private Float minPoints;

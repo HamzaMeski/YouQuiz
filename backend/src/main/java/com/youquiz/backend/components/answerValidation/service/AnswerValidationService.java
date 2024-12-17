@@ -56,82 +56,53 @@ public class AnswerValidationService extends EntityServiceImpl<
 
     @Override
     public AnswerValidationResponseDTO create(CreateAnswerValidationDTO createAnswerValidationDTO) {
-        // First create the AnswerValidation entity using the parent class method
-        AnswerValidationResponseDTO response = super.create(createAnswerValidationDTO);
-        
-        // Then handle the ManyToMany relationship manually
-        if (createAnswerValidationDTO.getQuizAssignmentIds() != null && !createAnswerValidationDTO.getQuizAssignmentIds().isEmpty()) {
-            AnswerValidation answerValidation = answerValidationRepository.findById(response.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("AnswerValidation not found"));
-            
-            Set<QuizAssignment> quizAssignments = createAnswerValidationDTO.getQuizAssignmentIds().stream()
-                    .map(id -> quizAssignmentRepository.findById(id)
-                            .orElseThrow(() -> new ResourceNotFoundException("QuizAssignment not found with id: " + id)))
-                    .collect(Collectors.toSet());
-            
-            answerValidation.setQuizAssignments(quizAssignments);
-            quizAssignments.forEach(qa -> qa.getAnswerValidations().add(answerValidation));
-            
-            answerValidationRepository.save(answerValidation);
-            quizAssignmentRepository.saveAll(quizAssignments);
+        if(createAnswerValidationDTO.getPoints() > 0 && !createAnswerValidationDTO.getIsCorrect()) {
+            throw new ValidationException("You can not set points to wrong answer");
+        }else if(createAnswerValidationDTO.getPoints() == 0 && createAnswerValidationDTO.getIsCorrect()) {
+            throw new ValidationException("You can not set 0 points to correct answer");
         }
-        
-        return response;
+
+        if(createAnswerValidationDTO.getPoints() > 0) createAnswerValidationDTO.setIsCorrect(true);
+
+        return super.create(createAnswerValidationDTO);
     }
 
     public AnswerValidationResponseDTO submitAnswer(SubmitAnswerDTO submitAnswerDTO) {
-        // 1. Verify the quiz assignment exists and belongs to the student
+        // Verify the quiz assignment exists and belongs to the student
         QuizAssignment quizAssignment = quizAssignmentRepository.findById(submitAnswerDTO.getQuizAssignmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz Assignment not found"));
 
-        // 2. Validate quiz assignment state
+        // Validate quiz assignment state
         validateQuizAssignmentState(quizAssignment);
 
-        // 3. Check if question already answered
-        if (answerValidationRepository.hasAnsweredQuestion(submitAnswerDTO.getQuestionId(), quizAssignment)) {
-            throw new ValidationException("This question has already been answered in this quiz");
-        }
-
-        // 4. Get question and answer
+        // Get question and answer
         Question question = questionRepository.findById(submitAnswerDTO.getQuestionId())
                 .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
         Answer answer = answerRepository.findById(submitAnswerDTO.getAnswerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Answer not found"));
 
-        // 5. Validate question belongs to quiz
+        // Check if question already answered
+        if (answerValidationRepository.hasAnsweredQuestion(submitAnswerDTO.getQuestionId(), quizAssignment)) {
+            throw new ValidationException("This question has already been answered in this quiz");
+        }
+
+        // Validate question belongs to quiz
         validateQuestionBelongsToQuiz(question, quizAssignment.getQuiz());
 
-        // 6. Get or create answer validation
+        // Get answer validation
         AnswerValidation answerValidation = answerValidationRepository
                 .findByQuestionAndAnswer(submitAnswerDTO.getQuestionId(), submitAnswerDTO.getAnswerId())
-                .orElseGet(() -> {
-                    AnswerValidation newValidation = new AnswerValidation();
-                    newValidation.setQuestion(question);
-                    newValidation.setAnswer(answer);
-                    return newValidation;
-                });
+                .orElseThrow(() -> new ResourceNotFoundException("answerId is not assigned to that questionId!"));
 
-        // 7. Check if answer is correct and set points
-        Boolean isCorrect = answerValidationRepository.isAnswerCorrectForQuestion(
-                submitAnswerDTO.getQuestionId(), 
-                submitAnswerDTO.getAnswerId()
-        );
-        Float points = answerValidationRepository.findPointsByQuestionAndAnswer(
-                submitAnswerDTO.getQuestionId(),
-                submitAnswerDTO.getAnswerId()
-        );
-        
-        answerValidation.setIsCorrect(isCorrect != null && isCorrect);
-        answerValidation.setPoints(points != null ? points : 0F);
 
-        // 8. Associate with quiz assignment
+        // Associate with quiz assignment
         quizAssignment.getAnswerValidations().add(answerValidation);
         answerValidation.getQuizAssignments().add(quizAssignment);
 
-        // 9. Save answer validation
+        // Save answer validation
         answerValidation = answerValidationRepository.save(answerValidation);
 
-        // 10. Update quiz assignment score
+        // Update quiz assignment score
         Float totalScore = answerValidationRepository.calculateTotalScore(quizAssignment);
         quizAssignment.updateScore(totalScore);
         quizAssignmentRepository.save(quizAssignment);
