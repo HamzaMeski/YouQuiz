@@ -9,9 +9,12 @@ import com.youquiz.backend.components.quiz.dto.response.QuizDetailResponseDTO;
 import com.youquiz.backend.components.quiz.dto.response.QuizResponseDTO;
 import com.youquiz.backend.components.quiz.mapper.QuizMapper;
 import com.youquiz.backend.components.quiz.repository.QuizRepository;
+import com.youquiz.backend.components.student.dto.response.StudentResponseDTO;
+import com.youquiz.backend.components.student.mapper.StudentMapper;
 import com.youquiz.backend.config.exception.ValidationException;
 import com.youquiz.backend.entities.Question;
 import com.youquiz.backend.entities.Quiz;
+import com.youquiz.backend.entities.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +34,9 @@ public class QuizService extends EntityServiceImpl<Quiz, Long, CreateQuizDTO, Up
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Autowired
+    private StudentMapper studentMapper;
+
     public QuizService(
             QuizRepository quizRepository, 
             QuizMapper quizMapper,
@@ -41,17 +47,22 @@ public class QuizService extends EntityServiceImpl<Quiz, Long, CreateQuizDTO, Up
     }
 
     public QuizDetailResponseDTO getQuizDetails(Long quizId) {
-        List<Question> questions = quizRepository.findQuestionsByQuizId(quizId);
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new ValidationException("quiz with ID doesn't exist"));
 
+        List<Question> questions = quizRepository.findQuestionsByQuizId(quizId);
         List<QuestionResponseDTO> questionResponseDTOS = questions.stream()
                 .map(q -> questionMapper.toResponseDTO(q))
                 .collect(Collectors.toList());
 
-        Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new ValidationException("quiz with ID doesn't exist"));
+        List<Student> students = quizRepository.findStudentsByQuizId(quizId);
+        List<StudentResponseDTO> studentResponseDTOS = students.stream()
+                .map(s -> studentMapper.toResponseDTO(s))
+                .collect(Collectors.toList());
 
         QuizDetailResponseDTO quizDetailResponseDTO = quizMapper.toDetailResponseDTO(quiz);
         quizDetailResponseDTO.setQuestions(questionResponseDTOS);
+        quizDetailResponseDTO.setStudents(studentResponseDTOS);
 
         return quizDetailResponseDTO;
     }

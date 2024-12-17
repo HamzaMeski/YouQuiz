@@ -1,6 +1,7 @@
 package com.youquiz.backend.components.quiz.dto.response;
 
 import com.youquiz.backend.components.question.dto.response.QuestionResponseDTO;
+import com.youquiz.backend.components.student.dto.response.StudentResponseDTO;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,4 +27,5 @@ public class QuizDetailResponseDTO {
     private Integer totalNumberOsAssignments;
 
     List<QuestionResponseDTO> questions;
+    List<StudentResponseDTO> students;
 }
