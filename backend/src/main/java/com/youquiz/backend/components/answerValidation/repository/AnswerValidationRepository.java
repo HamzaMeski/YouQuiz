@@ -24,7 +24,12 @@ public interface AnswerValidationRepository extends EntityRepository<AnswerValid
     
     @Query("SELECT SUM(av.points) FROM AnswerValidation av WHERE :quizAssignment MEMBER OF av.quizAssignments AND av.isCorrect = true")
     Float calculateTotalScore(@Param("quizAssignment") QuizAssignment quizAssignment);
-    
-    @Query("SELECT av FROM AnswerValidation av WHERE av.question.id = :questionId AND av.answer.id = :answerId")
+
+    @Query(value = "SELECT * FROM answer_validation av " +
+            "WHERE av.question_id = :questionId AND av.answer_id = :answerId " +
+            "ORDER BY av.created_date DESC " +
+            "LIMIT 1",
+            nativeQuery = true)
     Optional<AnswerValidation> findByQuestionAndAnswer(@Param("questionId") Long questionId, @Param("answerId") Long answerId);
+
 }

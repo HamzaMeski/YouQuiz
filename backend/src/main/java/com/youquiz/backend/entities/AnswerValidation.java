@@ -5,6 +5,7 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,4 +41,6 @@ public class AnswerValidation {
     private Float points;
     
     private Boolean isCorrect;
+
+    private LocalDateTime createdDate = LocalDateTime.now();
 }

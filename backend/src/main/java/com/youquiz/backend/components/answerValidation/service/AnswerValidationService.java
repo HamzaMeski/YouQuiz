@@ -83,28 +83,11 @@ public class AnswerValidationService extends EntityServiceImpl<
         // Validate question belongs to quiz
         validateQuestionBelongsToQuiz(question, quizAssignment.getQuiz());
 
-        // Get or create answer validation
+        // Get answer validation
         AnswerValidation answerValidation = answerValidationRepository
                 .findByQuestionAndAnswer(submitAnswerDTO.getQuestionId(), submitAnswerDTO.getAnswerId())
-                .orElseGet(() -> {
-                    AnswerValidation newValidation = new AnswerValidation();
-                    newValidation.setQuestion(question);
-                    newValidation.setAnswer(answer);
-                    return newValidation;
-                });
+                .orElseThrow(() -> new ResourceNotFoundException("answerId is not assigned to that questionId!"));
 
-        // Check if answer is correct and set points
-        Boolean isCorrect = answerValidationRepository.isAnswerCorrectForQuestion(
-                submitAnswerDTO.getQuestionId(), 
-                submitAnswerDTO.getAnswerId()
-        );
-        Float points = answerValidationRepository.findPointsByQuestionAndAnswer(
-                submitAnswerDTO.getQuestionId(),
-                submitAnswerDTO.getAnswerId()
-        );
-        
-        answerValidation.setIsCorrect(isCorrect);
-        answerValidation.setPoints(points);
 
         // Associate with quiz assignment
         quizAssignment.getAnswerValidations().add(answerValidation);
