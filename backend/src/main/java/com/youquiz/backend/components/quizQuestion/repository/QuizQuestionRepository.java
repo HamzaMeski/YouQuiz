@@ -1,9 +1,13 @@
 package com.youquiz.backend.components.quizQuestion.repository;
 
 import com.youquiz.backend.EntityComponentsProvider.repository.EntityRepository;
+import com.youquiz.backend.entities.Question;
+import com.youquiz.backend.entities.Quiz;
 import com.youquiz.backend.entities.QuizQuestion;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface QuizQuestionRepository extends EntityRepository<QuizQuestion, Long> {
     @Query("""
