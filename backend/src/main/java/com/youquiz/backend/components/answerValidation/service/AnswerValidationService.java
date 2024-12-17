@@ -56,6 +56,12 @@ public class AnswerValidationService extends EntityServiceImpl<
 
     @Override
     public AnswerValidationResponseDTO create(CreateAnswerValidationDTO createAnswerValidationDTO) {
+        if(createAnswerValidationDTO.getPoints() > 0 && !createAnswerValidationDTO.getIsCorrect()) {
+            throw new ValidationException("You can not set points to wrong answer");
+        }else if(createAnswerValidationDTO.getPoints() == 0 && createAnswerValidationDTO.getIsCorrect()) {
+            throw new ValidationException("You can not set 0 points to correct answer");
+        }
+
         if(createAnswerValidationDTO.getPoints() > 0) createAnswerValidationDTO.setIsCorrect(true);
 
         return super.create(createAnswerValidationDTO);
